@@ -1,0 +1,34 @@
+`timescale 1 ps/ 1 ps
+module SeqDetecter_vlg_tst();
+reg clk;
+reg rst;
+reg x;
+wire judge;
+
+SeqDetecter i1 (
+        .clk(clk),
+        .judge(judge),
+        .rst(rst),
+        .x(x)
+);
+
+initial                                                
+begin                                                  
+        clk=1'b0;                                    
+$display("Running testbench");                       
+end       
+//clock signal                                             
+always #100 clk=~clk;     
+//cyclical reset signal                                          
+always #100000 
+begin
+rst<=1'b0;
+#200 rst<=1'b1;
+end
+//random vecter
+always@(posedge clk or negedge rst)
+begin
+        x<={$random}%2;
+end
+endmodule
+
